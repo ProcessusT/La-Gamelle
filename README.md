@@ -1,0 +1,3 @@
+# La-Gamelle
+
+Tous les trucs utilisés dans les Tutos, les shellcodes, les templates, les notes...
